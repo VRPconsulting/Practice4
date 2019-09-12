@@ -12,27 +12,25 @@ private class Practice4OrderPageControllerTest {
                 Units_Available__c = 10
         );
         insert newProduct2;
-
     }
 
-    @IsTest
-    static void buyTest() {
-        Product_Table__c product = [SELECT Id, Name FROM Product_Table__c WHERE Name='TeslaRR' LIMIT 1];
-        Practice4OrderPageController controller = new Practice4OrderPageController();
-        controller.productById = product;
-        controller.contactfFirstName = 'Adam';
-        controller.contactLastName = 'Troy';
-        controller.contactEmail = 'at@gmail.com';
-        controller.unitCount = 1;
-        controller.totalAmount = 20000;
-        controller.productId = product.Id;
+    @ISTest static  void buyTest() {
 
+        List<Contact> newContacts = [SELECT id FROM Contact WHERE Email = 'adad@ada.ru'];
+        Product_Table__c productT = [SELECT Name, Product_Description__c, Units_Available__c, Unit_Price__c, Image_Url__c
+        FROM Product_Table__c];
+
+        Practice4OrderPageController controller = new Practice4OrderPageController();
+        controller.findContactList = newContacts;
+        controller.productById = productT;
+        controller.unitCount = 5;
+        controller.contactFirstName = 'testForTest';
+        controller.contactLastName = 'LastNameForTest';
+        controller.contactEmail = 'test@test.test';
         Test.startTest();
         controller.buy();
         Test.stopTest();
-        List<Contact> createdContactList = [SELECT Id, Name FROM Contact WHERE Email = 'at@gmail.com'];
-        System.debug('product>>>>>' + product);
-        System.assertEquals(1, createdContactList.size());
+        system.assert( controller.newContact != null);
     }
 
     @IsTest
@@ -48,4 +46,5 @@ private class Practice4OrderPageControllerTest {
         String page2 = pageReference.getUrl().toUpperCase();
         System.assertEquals(page1, page2);
     }
+
 }

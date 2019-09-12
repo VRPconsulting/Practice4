@@ -32,7 +32,7 @@ private class Practice4MainPageControllerTest {
         pageReference = pageController.toDetailPage();
         PageReference pageDetailReference = Page.Practice4ProductDetailPage;
         Test.stopTest();
-        String page1 = (pageDetailReference.getUrl()+ '?id=' + pageController.getProducts()[0].Id).toUpperCase();
+        String page1 = (pageDetailReference.getUrl() + '?id=' + pageController.getProducts()[0].Id).toUpperCase();
         String page2 = pageReference.getUrl().toUpperCase();
         System.assertEquals(page1, page2);
     }

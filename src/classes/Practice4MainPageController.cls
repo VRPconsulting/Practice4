@@ -11,11 +11,11 @@ public with sharing class Practice4MainPageController {
         ];
     }
 
-    public List<Product_Table__c> getProducts(){
+    public List<Product_Table__c> getProducts() {
         return productsList;
     }
 
-    public PageReference toDetailPage(){
+    public PageReference toDetailPage() {
         Id id = System.currentPageReference().getParameters().get('id');
         PageReference page = new PageReference('/apex/Practice4ProductDetailPage?id=' + id);
         return page;

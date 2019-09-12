@@ -17,7 +17,7 @@ private class Practice4ProductDetailPageControllerTest {
 
     @IsTest
     static void getSelectedProductDetailTest() {
-        Product_Table__c product = [SELECT Id, Name FROM Product_Table__c WHERE Name='TeslaZZ' LIMIT 1];
+        Product_Table__c product = [SELECT Id, Name FROM Product_Table__c WHERE Name = 'TeslaZZ' LIMIT 1];
         Test.startTest();
         Practice4ProductDetailPageController controller = new Practice4ProductDetailPageController();
         controller.productId = product.Id;
@@ -29,7 +29,7 @@ private class Practice4ProductDetailPageControllerTest {
 
     @IsTest
     static void toOrderPageTest() {
-        Product_Table__c product = [SELECT Id, Name FROM Product_Table__c WHERE Name='TeslaZZ' LIMIT 1];
+        Product_Table__c product = [SELECT Id, Name FROM Product_Table__c WHERE Name = 'TeslaZZ' LIMIT 1];
         Test.startTest();
         Practice4ProductDetailPageController pageController = new Practice4ProductDetailPageController();
         PageReference pageReference = Page.Practice4ProductDetailPage;
