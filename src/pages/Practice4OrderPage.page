@@ -1,0 +1,120 @@
+<!--
+ - Created by vvalitsky on 9/10/2019.
+ -->
+
+<apex:page id="Practice4OrderPage" controller="Practice4OrderPageController" docType="html-5.0" sideBar="false"
+           showHeader="false">
+    <html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Tesla shop</title>
+        <apex:slds/>
+        <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css"
+              rel="stylesheet"/>
+    </head>
+    <body>
+    <div class="slds-scope">
+        <apex:pageMessages />
+        <div class="slds-page-header slds-m-bottom--small" role="banner">
+            <div class="slds-media slds-media--center">
+                <div class="slds-media__body">
+                    <p class="slds-page-header__title slds-truncate slds-align-middle slds-text-heading--large">
+                        <strong><i class="fa fa-credit-card" aria-hidden="true"></i>&nbsp;Order</strong>
+                    </p>
+                    <p class="slds-text-body--medium page-header__info">check car availability and Buy</p>
+                </div>
+            </div>
+        </div>
+        <apex:form id="order_form" styleClass="slds-form">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-p-horizontal--medium slds-size--1-of-2">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="text-input-01">First Name</label>
+                        <div class="slds-form-element__control slds-has-divider--bottom">
+                            <apex:input styleClass="slds-input" value="{!contactfFirstName}"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="text-input-02">Last Name</label>
+                        <div class="slds-form-element__control slds-has-divider--bottom">
+                            <apex:input type="text" styleClass="slds-input" value="{!contactLastName}" />
+                        </div>
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="text-input-03">Email</label>
+                        <div class="slds-form-element__control slds-has-divider--bottom">
+                            <apex:input type="email" styleClass="slds-input" value="{!contactEmail}"/>
+                        </div>
+                    </div>
+                </div>
+                <apex:repeat value="{!SelectedProduct}" var="pr">
+                    <div class="slds-p-horizontal--medium slds-size--1-of-2">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" >Product Name</label>
+                            <div class="slds-form-element__control ">
+                                <apex:outputText  value="{!pr.Name}"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" >Cost</label>
+                            <div class="slds-form-element__control">
+                                <apex:outputText id="price"  value="{!pr.Unit_Price__c} $"/>
+                            </div>
+                        </div>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="text-input-03">Unit count</label>
+                            <div class="slds-form-element__control slds-has-divider--bottom">
+<!--                                <apex:input type="number" id="unit_Count" styleClass="slds-input" onChange="calculateTotalAmount()" value="{!unitCount}" >-->
+                                <apex:inputText  id="unit_Count" styleClass="slds-input"  value="{!unitCount}" >
+                                    <apex:actionSupport event="onchange" action="{!calculateTotalAmount}" reRender="order_form" />
+                                </apex:inputText>
+<!--                                <input type="number" id="xxx" onchange="calculateTotalAmount()"></input>-->
+<!--                                <p id="yyy"></p>-->
+                            </div>
+                        </div>
+
+                        <div id="total_amount_div" class="slds-form-element">
+                            <label class="slds-form-element__label" >Total Amount</label>
+                            <div class="slds-form-element__control">
+                                <apex:outputText id="total_amount" value="{!totalAmount} $"/>
+                            </div>
+                        </div>
+                    </div>
+                </apex:repeat>
+
+
+                <div class="slds-p-horizontal--medium slds-m-vertical--medium slds-size--1-of-1 slds-align--absolute-center">
+                    <apex:commandButton styleClass="slds-button slds-button_neutral" value="To Shoping" action="{!toShopping}"/>
+                    <apex:commandButton  styleClass="slds-button slds-button_brand"  action="{!buy}"  value="Buy" >
+                        <!--                        <apex:param name="orderId" value="{!p.id}"/>-->
+                    </apex:commandButton>
+                </div>
+
+            </div>
+
+        </apex:form>
+
+
+
+    </div>
+<!--    <script type="text/javascrypt">-->
+<!--        function calculateTotalAmount(){-->
+<!--            var count = document.getElementById('unit_Count').value;-->
+<!--            var productPrice = document.getElementById('price').value;-->
+<!--            var result = parseFloat(count) * parseFloat(productPrice);-->
+<!--            document.getElementById('demo').innerHTML = result;-->
+<!--        }-->
+<!--    </script>-->
+<!--    <script type="text/javascrypt">-->
+<!--        function calculateTotalAmount(){-->
+<!--            var count = document.getElementById('xxx').value;-->
+<!--            var productPrice = document.getElementById('price').value;-->
+<!--//            var result = parseFloat(count) * parseFloat(productPrice);-->
+<!--            document.getElementById('yyy').innerHTML = count;-->
+<!--        }-->
+<!--    </script>-->
+    </body>
+    </html>
+</apex:page>

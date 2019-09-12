@@ -1,0 +1,92 @@
+<!--
+ - Created by vvalitsky on 9/10/2019.
+ -->
+
+<apex:page id="Practice4MainPage" controller="Practice4MainPageController" docType="html-5.0" sideBar="false"
+           showHeader="false">
+    <html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Tesla shop</title>
+        <apex:slds/>
+        <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css"
+              rel="stylesheet"/>
+    </head>
+    <body>
+        <div class="slds-scope">
+            <apex:pageMessages />
+            <div class="slds-page-header slds-m-bottom--small" role="banner">
+                <div class="slds-media slds-media--center">
+                    <div class="slds-media__body">
+                        <p class="slds-page-header__title slds-truncate slds-align-middle slds-text-heading--large">
+                            <strong><i class="fa fa-battery-full" aria-hidden="true"></i>&nbsp;Tesla shop</strong>
+                        </p>
+                        <p class="slds-text-body--medium page-header__info">Manage your Eco Life</p>
+                    </div>
+                </div>
+            </div>
+            <apex:form styleClass="slds-form">
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col">
+                                <div class="slds-truncate" title="Foto"> </div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Model">Model</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Description">Description</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Cost">Cost</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Buy"> </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <apex:repeat value="{!Products}" var="p" >
+                            <tr>
+                                <th scope="row" data-label="Foto" width="300">
+                                    <div >
+                                        <img   src="{!p.Image_Url__c}" width="200"/>
+                                    </div>
+                                </th>
+                                <th scope="row" data-label="Name">
+                                    <apex:commandLink action="{!toDetailPage}" id="carLink" target="_blank">
+                                        <apex:param name="id" value="{!p.id}"/>
+                                        <div class="slds-truncate">{!p.Name}</div>
+                                    </apex:commandLink>
+                                </th>
+                                <th scope="row" data-label="Description">
+                                    <div class="slds-truncate">{!left(p.Product_Description__c,100)} ...
+                                        <apex:commandLink action="{! toDetailPage}" target="_blank" >
+                                            <apex:param name="id" value="{!p.id}"/>
+                                            <apex:outputText value=" More...  "/>
+                                        </apex:commandLink>
+                                    </div>
+                                </th>
+                                <th scope="row" data-label="Cost ">
+                                    <div class="slds-truncate">
+                                        <apex:outputText   value="{!p.Unit_Price__c} $"/>
+                                    </div>
+                                </th>
+                                <th scope="row" data-label=" ">
+                                    <div class="slds-truncate">
+                                        <apex:commandButton styleClass="slds-button slds-button_brand" value="Buy"
+                                                            onclick="window.top.location='/apex/Practice4OrderPage?id={!p.id}';"/>
+                                    </div>
+                                </th>
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+            </apex:form>
+        </div>
+    </body>
+    </html>
+</apex:page>
