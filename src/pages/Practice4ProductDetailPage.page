@@ -16,7 +16,7 @@
     </head>
     <body>
     <div class="slds-scope">
-        <apex:pageMessages />
+        <apex:pageMessages/>
         <div class="slds-page-header slds-m-bottom--small" role="banner">
             <div class="slds-media slds-media--center">
                 <div class="slds-media__body">
@@ -44,9 +44,8 @@
                     <div class="slds-p-horizontal--medium slds-size--2-of-12">
                         <b>Available</b>
                     </div>
-
                     <div class="slds-p-horizontal--medium slds-size--4-of-12">
-                        <img   src="{!c.Image_Url__c}" width="300"/>
+                        <img src="{!c.Image_Url__c}" width="300"/>
                     </div>
                     <div class="slds-p-horizontal--medium slds-size--2-of-12">
                         {!c.Name}
@@ -62,13 +61,12 @@
                     </div>
                 </div>
                 <div class="slds-p-horizontal--medium slds-m-vertical--medium slds-size--1-of-1 slds-align--absolute-center">
-                    <apex:commandButton styleClass="slds-button slds-button_neutral" value="To Shopping" action="{!toShopping}"/>
+                    <apex:commandButton styleClass="slds-button slds-button_neutral" value="To Shopping"
+                                        action="{!toShopping}"/>
                     <apex:commandButton styleClass="slds-button slds-button_brand" value="Buy" action="{!toOrderPage}"/>
                 </div>
-
             </apex:repeat>
         </apex:form>
-
     </div>
     </body>
     </html>
