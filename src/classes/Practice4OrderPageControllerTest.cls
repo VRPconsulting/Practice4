@@ -14,15 +14,27 @@ private class Practice4OrderPageControllerTest {
         insert newProduct2;
     }
 
+    @ISTest static  void calculateTotalAmountTest() {
+        Product_Table__c product = [SELECT Name, Product_Description__c, Units_Available__c, Unit_Price__c, Image_Url__c
+        FROM Product_Table__c LIMIT 1];
+        Practice4OrderPageController controllerAmount = new Practice4OrderPageController();
+        controllerAmount.productById = product;
+        controllerAmount.unitCount = 1;
+        Test.startTest();
+        controllerAmount.calculateTotalAmount();
+        Double totalAmount = controllerAmount.totalAmount;
+        Test.stopTest();
+        system.assertEquals(20000, totalAmount);
+    }
+
     @ISTest static  void buyTest() {
-
-        List<Contact> newContacts = [SELECT id FROM Contact WHERE Email = 'adad@ada.ru'];
+        List<Contact> newContacts = [SELECT id, Name FROM Contact WHERE Email = 'ter@mail.ru'];
         Product_Table__c productT = [SELECT Name, Product_Description__c, Units_Available__c, Unit_Price__c, Image_Url__c
-        FROM Product_Table__c];
-
+        FROM Product_Table__c LIMIT 1];
         Practice4OrderPageController controller = new Practice4OrderPageController();
+        controller.productId = productT.Id;
         controller.findContactList = newContacts;
-        controller.productById = productT;
+//        controller.productById = productT;
         controller.unitCount = 5;
         controller.contactFirstName = 'testForTest';
         controller.contactLastName = 'LastNameForTest';
