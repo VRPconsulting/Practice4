@@ -76,18 +76,20 @@ public with sharing class Practice4OrderPageController {
     }
 
     public void createOrder(Contact con) {
+        newOrder = new Order_Table__c(Contact__c = newContact.Id,
+                Product__c = productById.Id,
+                Units__c = unitCount,
+                Order_Amount__c = totalAmount);
+        Savepoint sp = Database.setSavepoint();
+        try {
+            insert newOrder;
+            ApexPages.addMessage(new ApexPages.message(ApexPages.severity.CONFIRM, 'Order insert successfully.'));
+        } catch (DmlException de) {
+            ApexPages.addMessage(new ApexPages.message(ApexPages.severity.ERROR,
+                    'Order don\'t insert. Exception' + de.getMessage()));
+        }
         if (unitCount <= productById.Units_Available__c && unitCount > 0) {
-            newOrder = new Order_Table__c(Contact__c = newContact.Id,
-                    Product__c = productById.Id,
-                    Units__c = unitCount,
-                    Order_Amount__c = totalAmount);
-            try {
-                insert newOrder;
-                ApexPages.addMessage(new ApexPages.message(ApexPages.severity.CONFIRM, 'Order insert successfully.'));
-            } catch (DmlException de) {
-                ApexPages.addMessage(new ApexPages.message(ApexPages.severity.ERROR,
-                        'Order don\'t insert. Exception' + de.getMessage()));
-            }
+
             productById.Units_Available__c -= unitCount;
             try {
                 upsert productById;
@@ -97,6 +99,7 @@ public with sharing class Practice4OrderPageController {
                         'Product don\'t upsert. Exception' + de.getMessage()));
             }
         } else {
+            Database.rollback(sp);
             ApexPages.addMessage(new ApexPages.message(ApexPages.severity.WARNING,
                     'Unit count more then we have on warehouse. Reduce Unit Count or wait new apply.'));
         }
