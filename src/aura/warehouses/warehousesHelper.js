@@ -16,11 +16,9 @@
         }));
         $A.enqueueAction(action);
         },
-
         displayDeviceByWarehouse : function(component, selectedWarehouseParam){
             var action = component.get('c.devicesByWarehouse');
             action.setParams({selectedWarehouse : selectedWarehouseParam});
-//            console.log('>>>>>>>>>>---- ' + action.getParams(selectedWarehouse));
             action.setCallback(this, function(result){
                 console.log('SUCCESS');
                 console.log('result---- ' + result.getReturnValue());
@@ -36,14 +34,13 @@
             });
          $A.enqueueAction(action);
         },
-
         assignDeviceHelper : function(component, selectedDeviceParam, selectedWarehouseParam){
              var action = component.get('c.assignDeviceOnWarehouse');
-             action.setParams({selectedDeviceParameter : selectedDeviceParam});
-             action.setParams({selectedWarehouseParameter : selectedWarehouseParam});
-             console.log('selectedDeviceParam>>>>>>' + selectedDeviceParameter);
-             console.log('selectedDeviceParam>>>>>>' + selectedWarehouseParameter);
+             action.setParams({selectedDeviceParameter : selectedDeviceParam, selectedWarehouseParameter : selectedWarehouseParam});
+             console.log('selectedDeviceParam///////////' + selectedDeviceParam);
+             console.log('selectedWarehouseParam+++++++++' + selectedWarehouseParam);
              action.setCallback(this, function(result){
+                 console.log('state: ' + state);
              if(state === "SUCCESS"){
                  console.log(response.getReturnValue());
                  component.set('v.resultAssign', response.getReturnValue());
@@ -54,5 +51,4 @@
              });
              $A.enqueueAction(action);
         },
-
 })
