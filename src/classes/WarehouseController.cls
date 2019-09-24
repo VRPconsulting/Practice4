@@ -43,20 +43,22 @@ global with sharing class WarehouseController {
         return name;
     }
 
-    public static Id changeNameForId(String name) {
+    public static Id changeDeviceNameForId(String name) {
         Id deviceId = [SELECT Id, Name FROM Device__c WHERE Name = :name LIMIT 1].Id;
         return deviceId;
     }
 
+    public static Id changeWarehouseNameForId(String warehouseName) {
+        Id warehouseId = [SELECT Id, Name FROM Warehouse__c WHERE Name = :warehouseName LIMIT 1].Id;
+        return warehouseId;
+    }
+
     @AuraEnabled
-    public static String assignDeviceOnWarehouse(String selectedDeviceParameter, String selectedWarehouseParameter) {
+    public static String assignDeviceOnWarehouse(String selectedDeviceParameter, List<String> selectedWarehouseParameter) {
         String result;
-        System.debug('selectedDeviceP::::' + selectedDeviceParameter);
-        System.debug('selectedWarehouseP::::' + selectedWarehouseParameter);
-        Id deviceId = changeNameForId(selectedDeviceParameter);
-        Id warehouseId = changeNameForId(selectedWarehouseParameter);
-        System.debug('deviceId>' + deviceId);
-        System.debug('warehouseId>' + warehouseId);
+        Id deviceId = changeDeviceNameForId(selectedDeviceParameter);
+        String nameForId = String.valueOf(selectedWarehouseParameter[0]);
+        Id warehouseId = changeWarehouseNameForId(nameForId);
         DeviceInWarehouse__c deviceInWarehouses = [
                 SELECT Name,Count__c, Device__c, Warehouse__c
                 FROM DeviceInWarehouse__c
@@ -64,19 +66,16 @@ global with sharing class WarehouseController {
                 LIMIT 1
         ];
         String indexOfWarehouseName = deviceInWarehouses.Name.substringAfterLast('_');
-        deviceInWarehouses.Name = selectedWarehouseParameter + '_' + selectedDeviceParameter + '_' + indexOfWarehouseName;
+        deviceInWarehouses.Name = nameForId + '_' + selectedDeviceParameter + '_' + indexOfWarehouseName;
         deviceInWarehouses.Warehouse__c = warehouseId;
-        System.debug('deviceInWarehouses======' + deviceInWarehouses);
         if (deviceInWarehouses != null) {
             try {
                 upsert deviceInWarehouses;
                 result = 'Upsert is SUCCESS';
             } catch (DmlException de) {
                 result = 'Upsert is Faild';
-                System.debug('Exception. Fail insert of Devices: ' + de.getMessage());
             }
         }
-        System.debug('result:' + result);
         return result;
     }
 

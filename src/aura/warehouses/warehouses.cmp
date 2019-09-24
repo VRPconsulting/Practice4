@@ -40,6 +40,7 @@
         <tr class="slds-text-title--caps">
             <th scope="col">Device Name</th>
             <th scope="col">Count</th>
+            <th scope="col">Assign to selected Warehouse</th>
         </tr>
         </thead>
         <aura:iteration items="{!v.devices}" var="item" indexVar="key">
@@ -53,6 +54,5 @@
             </tr>
         </aura:iteration>
     </table>
-    <p>
-    <h2>{!v.resultAssign}</h2></p>
+    <p><h2>{!v.resultAssign}</h2></p>
 </aura:component>

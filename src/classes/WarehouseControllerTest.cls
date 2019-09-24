@@ -41,11 +41,19 @@ private class WarehouseControllerTest {
     static void testDevicesByWarehouse() {
         Map<String, String > devicesByWarehouseMap = WarehouseController.devicesByWarehouse('WarehouseX');
         List<String> deviceNameList = new List<String>();
-        for (String key : devicesByWarehouseMap.keySet()){
+        for (String key : devicesByWarehouseMap.keySet()) {
             deviceNameList.add(key);
         }
         System.assertEquals(deviceNameList.size(), 2);
         System.assertEquals(deviceNameList[0], 'NoteBook');
+    }
+
+    @IsTest
+    static void testAssignDeviceOnWarehouse() {
+        List<String> warehouses = new List<String>();
+        warehouses.add('WarehouseY');
+        String result = WarehouseController.assignDeviceOnWarehouse('PC', warehouses);
+        System.assertEquals(result, 'Upsert is SUCCESS');
     }
 
 }
